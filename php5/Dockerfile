@@ -16,6 +16,8 @@
 FROM composer/composer:php5
 MAINTAINER Mariano Custiel <jmcustiel@gmail.com>
 
+RUN pecl install xdebug-2.5.0 && docker-php-ext-enable xdebug
+
 RUN composer global require phing/phing
 RUN composer global require phpunit/phpunit
 RUN composer global require phpunit/dbunit
@@ -27,4 +29,3 @@ RUN composer global require pear/archive_tar
 RUN composer global require friendsofphp/php-cs-fixer
 
 ENTRYPOINT []
-CMD ["/bin/bash"]
