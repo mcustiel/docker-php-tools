@@ -27,5 +27,6 @@ RUN composer global require phpmd/phpmd
 RUN composer global require squizlabs/php_codesniffer
 RUN composer global require pear/archive_tar
 RUN composer global require friendsofphp/php-cs-fixer
+RUN composer global require codeception/codeception
 
 ENTRYPOINT []
