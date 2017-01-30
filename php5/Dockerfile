@@ -16,8 +16,10 @@
 FROM composer/composer:php5
 MAINTAINER Mariano Custiel <jmcustiel@gmail.com>
 
+# Xdebug
 RUN pecl install xdebug-2.5.0 && docker-php-ext-enable xdebug
 
+# PHP tools
 RUN composer global require phing/phing
 RUN composer global require phpunit/phpunit
 RUN composer global require phpunit/dbunit
@@ -28,5 +30,9 @@ RUN composer global require squizlabs/php_codesniffer
 RUN composer global require pear/archive_tar
 RUN composer global require friendsofphp/php-cs-fixer
 RUN composer global require codeception/codeception
+
+# CS config for SF2 standards
+RUN composer global require escapestudios/symfony2-coding-standard
+RUN phpcs --config-set installed_paths $COMPOSER_HOME/vendor/escapestudios/symfony2-coding-standard
 
 ENTRYPOINT []
