@@ -30,6 +30,8 @@ RUN composer global require squizlabs/php_codesniffer
 RUN composer global require pear/archive_tar
 RUN composer global require friendsofphp/php-cs-fixer
 RUN composer global require codeception/codeception
+RUN composer global require phpmetrics/phpmetrics
+RUN composer global require sensiolabs/security-checker
 
 # CS config for SF2 standards
 RUN composer global require escapestudios/symfony2-coding-standard
