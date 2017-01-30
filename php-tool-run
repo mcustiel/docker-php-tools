@@ -40,3 +40,4 @@ if [ "$CHANGE_OWNER" -eq "1" ]; then
     echo "CHANGING OWNERSHIP TO $USER:$GROUP"
     sudo chown -R $USER:$GROUP $DIR
 fi
+
