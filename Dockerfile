@@ -19,10 +19,13 @@ MAINTAINER Mariano Custiel <jmcustiel@gmail.com>
 # Xdebug
 RUN pecl install xdebug-2.5.0 && docker-php-ext-enable xdebug
 
+# PHP Configuration
+COPY ./config/phar-writable.ini /usr/local/etc/php/conf.d
+
 # PHP tools
 RUN composer global require phing/phing
-RUN composer global require phpunit/phpunit
-RUN composer global require phpunit/dbunit
+RUN composer global require phpunit/phpunit:~5.0
+RUN composer global require phpunit/dbunit:~2.0
 RUN composer global require sebastian/phpcpd
 RUN composer global require phploc/phploc
 RUN composer global require phpmd/phpmd
@@ -32,6 +35,7 @@ RUN composer global require friendsofphp/php-cs-fixer
 RUN composer global require codeception/codeception
 RUN composer global require phpmetrics/phpmetrics
 RUN composer global require sensiolabs/security-checker
+RUN composer global require kherge/box --prefer-source
 
 # CS config for SF2 standards
 RUN composer global require escapestudios/symfony2-coding-standard

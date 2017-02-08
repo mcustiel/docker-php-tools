@@ -31,6 +31,10 @@ Based in [docker images for composer](https://github.com/RobLoach/docker-compose
 
 * PHP CS Fixer
 
+# Phar creation
+
+* Box2
+
 ## Use
 
 ### Installation
