@@ -5,11 +5,11 @@ Based in [docker images for composer](https://github.com/RobLoach/docker-compose
 
 ## Integrated tools
 
-# Package manager
+### Package manager
 
 * Composer
 
-# Tasks runner
+### Tasks runner
 
 * Phing
 
@@ -27,11 +27,11 @@ Based in [docker images for composer](https://github.com/RobLoach/docker-compose
 * PHP Metrics
 * Security Checker
 
-# Code fixing
+### Code fixing
 
 * PHP CS Fixer
 
-# Phar creation
+### Phar creation
 
 * Box2
 
