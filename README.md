@@ -35,6 +35,10 @@ Based in [docker images for composer](https://github.com/RobLoach/docker-compose
 
 * Box2
 
+### Documentation generation
+
+* PhpDocumentor
+
 ## Use
 
 ### Installation

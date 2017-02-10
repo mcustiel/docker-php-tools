@@ -16,6 +16,11 @@
 FROM composer/composer:php5
 MAINTAINER Mariano Custiel <jmcustiel@gmail.com>
 
+# phars directory
+ENV PHARS_DIR /opt/phars
+RUN mkdir $PHARS_DIR
+ENV PATH $PHARS_DIR:$PATH
+
 # Xdebug
 RUN pecl install xdebug-2.5.0 && docker-php-ext-enable xdebug
 
@@ -37,8 +42,12 @@ RUN composer global require phpmetrics/phpmetrics
 RUN composer global require sensiolabs/security-checker
 RUN composer global require kherge/box --prefer-source
 
+RUN curl -L http://phpdoc.org/phpDocumentor.phar -o $PHARS_DIR/phpDocumentor
+RUN chmod +x $PHARS_DIR/phpDocumentor
+
 # CS config for SF2 standards
 RUN composer global require escapestudios/symfony2-coding-standard
 RUN phpcs --config-set installed_paths $COMPOSER_HOME/vendor/escapestudios/symfony2-coding-standard
 
 ENTRYPOINT []
+
