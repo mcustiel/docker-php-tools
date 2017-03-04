@@ -41,6 +41,7 @@ RUN composer global require codeception/codeception
 RUN composer global require phpmetrics/phpmetrics
 RUN composer global require sensiolabs/security-checker
 RUN composer global require kherge/box --prefer-source
+RUN composer global require sebastian/phpdcd
 
 RUN curl -L http://phpdoc.org/phpDocumentor.phar -o $PHARS_DIR/phpDocumentor
 RUN chmod +x $PHARS_DIR/phpDocumentor

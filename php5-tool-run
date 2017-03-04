@@ -40,7 +40,7 @@ while [ "${#options[@]}" -gt 0 ]; do
 done
 
 echo "RUNNING: '$COMMAND' in directory '$DIR'"
-docker run -it --rm -v $DIR:/app -v ~/.ssh:/root/.ssh php-tools $COMMAND
+docker run -it --rm -v $DIR:/app -v ~/.ssh:/root/.ssh php-tools:php5 $COMMAND
 if [ "$CHANGE_OWNER" -eq "1" ]; then
     echo "CHANGING OWNERSHIP TO $USER:$GROUP"
     sudo chown -R $USER:$GROUP $DIR
