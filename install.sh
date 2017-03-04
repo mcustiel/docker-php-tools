@@ -41,6 +41,8 @@ while [ "${#options[@]}" -gt 0 ]; do
   options=(${options[@]:1})
 done
 
+echo "cp $CURDIR/php-tool-run $DESTDIR"
 cp $CURDIR/php-tool-run $DESTDIR
+echo "cp $CURDIR/php5-tool-run $DESTDIR"
 cp $CURDIR/php5-tool-run $DESTDIR
 
