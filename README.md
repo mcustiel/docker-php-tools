@@ -26,6 +26,7 @@ Based in [docker images for composer](https://github.com/RobLoach/docker-compose
 * PHP CodeSniffer + Symfony2 Code Standard
 * PHP Metrics
 * Security Checker
+* PHP Dead Code Detector
 
 ### Code fixing
 
@@ -43,11 +44,27 @@ Based in [docker images for composer](https://github.com/RobLoach/docker-compose
 
 ### Installation
 
+#### Simple
+
+Install `php-tool-run` and `php5-tool-run` to `/usr/local/bin`
+```bash
+./build.sh
+./install.sh
+```
+
+Install `php-tool-run` and `php5-tool-run` to `/my/special/dir/in/path`
+```bash
+./build.sh
+./install.sh -d /my/special/dir/in/path
+```
+#### Manual
+
 Download the Dockerfile you need (PHP7 and PHP5 versions included) and execute:
 ```bash
 docker build . -t php-tools
+docker build ./php5 -t php-tools:php5
 ```
-Copy `php-tool-run` file to your PATH.
+Copy `php-tool-run` and `php5-tool-run` file to your PATH.
 
 ### Run
 
