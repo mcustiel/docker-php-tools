@@ -22,7 +22,7 @@ RUN mkdir $PHARS_DIR
 ENV PATH $PHARS_DIR:$PATH
 
 # Xdebug
-RUN pecl install xdebug-2.5.0 && docker-php-ext-enable xdebug
+RUN pecl install xdebug-2.5.3 && docker-php-ext-enable xdebug
 
 # PHP Configuration
 COPY ./config/phar-writable.ini /usr/local/etc/php/conf.d
