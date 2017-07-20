@@ -13,12 +13,12 @@
 # You should have received a copy of the GNU General Public License
 # along with mcustiel/docker-php-tools.  If not, see <http://www.gnu.org/licenses/>.
 
-FROM composer/composer
+FROM composer
 MAINTAINER Mariano Custiel <jmcustiel@gmail.com>
 
 # phars directory
 ENV PHARS_DIR /opt/phars
-RUN mkdir $PHARS_DIR
+RUN mkdir -p $PHARS_DIR
 ENV PATH $PHARS_DIR:$PATH
 
 # Xdebug
@@ -26,6 +26,9 @@ RUN pecl install xdebug-2.5.0 && docker-php-ext-enable xdebug
 
 # PHP Configuration
 COPY ./config/phar-writable.ini /usr/local/etc/php/conf.d
+
+# Parallel downloads for composer
+RUN composer global require hirak/prestissimo 
 
 # PHP tools
 RUN composer global require phing/phing
@@ -47,7 +50,6 @@ RUN curl -L http://phpdoc.org/phpDocumentor.phar -o $PHARS_DIR/phpDocumentor
 RUN chmod +x $PHARS_DIR/phpDocumentor
 
 # CS config for SF2 standards
-RUN composer global require escapestudios/symfony2-coding-standard
 RUN phpcs --config-set installed_paths $COMPOSER_HOME/vendor/escapestudios/symfony2-coding-standard
 
 ENTRYPOINT []
