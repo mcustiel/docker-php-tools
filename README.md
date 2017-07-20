@@ -7,7 +7,7 @@ Based in [docker images for composer](https://github.com/RobLoach/docker-compose
 
 ### Package manager
 
-* Composer
+* Composer + Prestissimo plugin
 
 ### Tasks runner
 
