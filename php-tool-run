@@ -46,7 +46,7 @@ docker run -it --rm \
     --volume /etc/passwd:/etc/passwd:ro \
     --volume /etc/group:/etc/group:ro \
     --env SSH_AUTH_SOCK=/ssh-auth.sock \
-    --name php_tool_run_PHPv7 \
+#    --name php_tool_run_PHPv7 \
     --user $USER:$GROUP \
     php-tools $COMMAND
 if [ "$CHANGE_OWNER" -eq "1" ]; then
