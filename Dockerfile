@@ -21,6 +21,8 @@ ENV PHARS_DIR /opt/phars
 RUN mkdir -p $PHARS_DIR
 ENV PATH $PHARS_DIR:$PATH
 
+ENV PATH $COMPOSER_HOME/vendor/bin:$PATH
+
 # Xdebug
 RUN apk add --no-cache \
 		$PHPIZE_DEPS \
