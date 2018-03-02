@@ -47,7 +47,6 @@ docker run -it --rm \
     --volume /etc/group:/etc/group:ro \
     --env SSH_AUTH_SOCK=/ssh-auth.sock \
     --user $USER:$GROUP \
-#    --name php_tool_run_PHPv5 \
     php-tools:php5 $COMMAND
 if [ "$CHANGE_OWNER" -eq "1" ]; then
     echo "CHANGING OWNERSHIP TO $USER:$GROUP"
