@@ -3,7 +3,6 @@
 DIR=$(pwd)
 USER=$(id -u)
 GROUP=$(id -g)
-CHANGE_OWNER=0
 COMMAND=""
 options=($@)
 
@@ -29,9 +28,6 @@ while [ "${#options[@]}" -gt 0 ]; do
       GROUP=${options[1]}
       options=(${options[@]:1})
       ;;
-    --dpt-owner)
-      CHANGE_OWNER=1
-      ;;
     *)
       COMMAND="$COMMAND ${options[0]}"
       ;;
@@ -48,8 +44,4 @@ docker run -it --rm \
     --env SSH_AUTH_SOCK=/ssh-auth.sock \
     --user $USER:$GROUP \
     php-tools $COMMAND
-if [ "$CHANGE_OWNER" -eq "1" ]; then
-    echo "CHANGING OWNERSHIP TO $USER:$GROUP"
-    sudo chown -R $USER:$GROUP $DIR
-fi
 
