@@ -12,21 +12,23 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with mcustiel/docker-php-tools.  If not, see <http://www.gnu.org/licenses/>.
-FROM php:5.6-stretch
+
+FROM php:5.6-cli-stretch
 MAINTAINER Mariano Custiel <jmcustiel@gmail.com>
 
+# phars directory
 ENV PHARS_DIR /opt/phars
-RUN mkdir $PHARS_DIR
+RUN mkdir -p $PHARS_DIR
 ENV PATH $PHARS_DIR:$PATH
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
+RUN apt-get update && \
+    apt-get install --yes --no-install-recommends \
         libssh2-1-dev \
         gzip \
         zip \
         git \
-	zlib1g-dev \
-	libfreetype6-dev \
+	    zlib1g-dev \
+	    libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libbz2-dev \
@@ -41,20 +43,98 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
         imagemagick \
         libgraphicsmagick1-dev \
         libmagickwand-dev \
+        libcurl4-gnutls-dev \
+        libssl-dev \
+        libenchant-dev \
+        libgmp-dev \
+        libc-client-dev \
+        libkrb5-dev \
+        libpspell-dev \
+        libaspell-dev \
+        aspell-en \
+        aspell-de \
+        aspell-es \
+        libxml2-dev \
+        libtidy-dev \
+        librecode-dev \
+        libsnmp-dev \
+        libreadline-dev \
+        libedit-dev \
     && rm -r /var/lib/apt/lists/*
 
-# Xdebug
 RUN pecl install xdebug-2.5.3
 RUN pecl install ssh2-0.13 && docker-php-ext-enable ssh2
 RUN pecl install redis-4.1.1 && docker-php-ext-enable redis
 RUN pecl install imagick-3.4.3 && docker-php-ext-enable imagick
 
-RUN docker-php-ext-install bcmath mcrypt zip bz2 mbstring pcntl xsl \
-  && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-  && docker-php-ext-install gd \
-  && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
-&& docker-php-ext-install ldap
-
+RUN docker-php-ext-install bcmath 
+RUN docker-php-ext-install bz2 
+RUN docker-php-ext-install calendar 
+RUN docker-php-ext-install ctype 
+RUN docker-php-ext-install curl 
+RUN docker-php-ext-install dba 
+RUN docker-php-ext-install dom 
+RUN docker-php-ext-install enchant
+RUN docker-php-ext-install exif 
+RUN docker-php-ext-install fileinfo 
+#RUN docker-php-ext-install filter
+RUN docker-php-ext-install ftp 
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && docker-php-ext-install gd 
+RUN docker-php-ext-install gettext
+RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h
+RUN docker-php-ext-install gmp 
+RUN docker-php-ext-install hash 
+RUN docker-php-ext-install iconv 
+RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl && docker-php-ext-install imap 
+# RUN docker-php-ext-install interbase 
+RUN docker-php-ext-install intl 
+RUN docker-php-ext-install json 
+RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && docker-php-ext-install ldap
+RUN docker-php-ext-install mbstring 
+RUN docker-php-ext-install mcrypt 
+#RUN docker-php-ext-install mssql 
+RUN docker-php-ext-install mysql 
+RUN docker-php-ext-install mysqli 
+#RUN docker-php-ext-install oci8 
+#RUN docker-php-ext-install odbc 
+RUN docker-php-ext-install opcache 
+RUN docker-php-ext-install pcntl 
+RUN docker-php-ext-install pdo 
+#RUN docker-php-ext-install pdo_dblib 
+#RUN docker-php-ext-install pdo_firebird 
+RUN docker-php-ext-install pdo_mysql 
+#RUN docker-php-ext-install pdo_oci 
+#RUN docker-php-ext-install pdo_odbc 
+#RUN docker-php-ext-install pdo_pgsql 
+#RUN docker-php-ext-install pdo_sqlite 
+#RUN docker-php-ext-install pgsql 
+#RUN docker-php-ext-install phar 
+RUN docker-php-ext-install posix 
+RUN docker-php-ext-install pspell 
+RUN docker-php-ext-install readline 
+RUN docker-php-ext-install recode 
+#RUN docker-php-ext-install reflection 
+RUN docker-php-ext-install session 
+RUN docker-php-ext-install shmop 
+RUN docker-php-ext-install simplexml 
+RUN docker-php-ext-install snmp 
+RUN docker-php-ext-install soap 
+RUN docker-php-ext-install sockets 
+#RUN docker-php-ext-install spl 
+#RUN docker-php-ext-install standard 
+#RUN docker-php-ext-install sybase_ct 
+RUN docker-php-ext-install sysvmsg 
+RUN docker-php-ext-install sysvsem 
+RUN docker-php-ext-install sysvshm 
+RUN docker-php-ext-install tidy 
+RUN docker-php-ext-install tokenizer 
+RUN docker-php-ext-install wddx 
+RUN docker-php-ext-install xml 
+RUN docker-php-ext-install xmlreader 
+RUN docker-php-ext-install xmlrpc 
+RUN docker-php-ext-install xmlwriter 
+RUN docker-php-ext-install xsl 
+RUN docker-php-ext-install zip
 
 # PHP Configuration
 COPY ./config/phar-writable.ini /usr/local/etc/php/conf.d
@@ -110,7 +190,8 @@ RUN echo "date.timezone=${PHP_TIMEZONE:-UTC}" > $PHP_INI_DIR/conf.d/date_timezon
 # http://php.net/manual/en/ini.core.php#ini.always-populate-raw-post-data
 RUN echo "always_populate_raw_post_data=-1" > $PHP_INI_DIR/conf.d/always_populate_raw_post_data.ini
 
-RUN docker-php-ext-enable xdebug
+RUN echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini && docker-php-ext-enable xdebug
 
 RUN chmod -R 0777 $COMPOSER_HOME
 
