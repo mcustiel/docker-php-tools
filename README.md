@@ -1,7 +1,5 @@
 # docker-php-tools
-Docker image containing common tools used in php development
-
-Based in [docker images for composer](https://github.com/RobLoach/docker-composer), PHP7 and PHP5 versions.
+Docker image containing common tools used in php development, PHP7 and PHP5 versions.
 
 ## Integrated tools
 
@@ -27,6 +25,8 @@ Based in [docker images for composer](https://github.com/RobLoach/docker-compose
 * PHP Metrics
 * Security Checker
 * PHP Dead Code Detector
+* PHP Stan (PHP7 only)
+* Phan (PHP7 only)
 
 ### Code fixing
 
