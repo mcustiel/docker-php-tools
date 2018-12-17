@@ -42,3 +42,5 @@ RUN echo "always_populate_raw_post_data=-1" > $PHP_INI_DIR/conf.d/always_populat
 RUN echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini && docker-php-ext-enable xdebug
 
+RUN chmod -R 0777 $COMPOSER_HOME
+

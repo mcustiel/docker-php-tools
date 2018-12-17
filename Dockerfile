@@ -45,3 +45,5 @@ RUN composer global require phpstan/phpstan --prefer-dist
 RUN echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini && docker-php-ext-enable xdebug
 
+RUN chmod -R 0777 $COMPOSER_HOME
+
