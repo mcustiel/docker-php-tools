@@ -172,6 +172,13 @@ RUN composer global require phpmetrics/phpmetrics
 RUN curl -L http://phpdoc.org/phpDocumentor.phar -o $PHARS_DIR/phpDocumentor
 RUN chmod +x $PHARS_DIR/phpDocumentor
 
+# Box
+
+RUN echo "phar.readonly=off" > $PHP_INI_DIR/conf.d/phar.ini
+
+RUN curl -LSs https://box-project.github.io/box2/installer.php | php 
+RUN chmod 0755 box.phar && mv box.phar /composer/vendor/bin/box
+
 # CS config for SF2 standards
 RUN composer global require escapestudios/symfony2-coding-standard
 RUN phpcs --config-set installed_paths $COMPOSER_HOME/vendor/escapestudios/symfony2-coding-standard
@@ -181,6 +188,8 @@ RUN echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/memory-limit.ini
 
 # Time Zone
 RUN echo "date.timezone=${PHP_TIMEZONE:-UTC}" > $PHP_INI_DIR/conf.d/date_timezone.ini
+
+# Phars
 
 VOLUME ["/app"]
 WORKDIR /app

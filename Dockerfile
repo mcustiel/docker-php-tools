@@ -33,7 +33,7 @@ RUN docker-php-ext-install sodium
 RUN CFLAGS="-I/usr/src/php"  docker-php-ext-install xmlreader 
 RUN docker-php-ext-install zend_test 
 
-RUN composer global require phpunit/phpunit
+RUN composer global require phpunit/phpunit ~7.1
 RUN composer global require phpunit/dbunit
 RUN composer global require sebastian/phpcpd
 
