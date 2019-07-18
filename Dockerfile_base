@@ -63,6 +63,7 @@ RUN apt-get update && \
         libreadline-dev \
         libedit-dev \
         snmp \
+        libzip-dev \
     && rm -r /var/lib/apt/lists/*
     
 RUN pecl install redis-4.1.1 && docker-php-ext-enable redis
