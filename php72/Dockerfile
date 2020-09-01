@@ -13,9 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with mcustiel/docker-php-tools.  If not, see <http://www.gnu.org/licenses/>.
 
-FROM php-tool-base:php7
+FROM php-tool-base:php72
 
-MAINTAINER Mariano Custiel <jmcustiel@gmail.com>
+LABEL MAINTAINER="Mariano Custiel <jmcustiel@gmail.com>"
+
+ARG DEBUG_IDEKEY=ECLIPSE
 
 RUN apt-get update && \
     apt-get install --yes --no-install-recommends \
@@ -34,17 +36,29 @@ RUN docker-php-ext-install sodium
 RUN CFLAGS="-I/usr/src/php"  docker-php-ext-install xmlreader 
 RUN docker-php-ext-install zend_test 
 
-RUN composer global require phpunit/phpunit 
-#RUN composer global require phpunit/dbunit
-RUN composer global require sebastian/phpcpd
+RUN wget -O /usr/local/bin/phpunit https://phar.phpunit.de/phpunit-8.5.8.phar && \
+    chmod +x /usr/local/bin/phpunit
 
-RUN composer global require codeception/codeception
+RUN wget -O /usr/local/bin/phpcpd https://phar.phpunit.de/phpcpd-4.1.0.phar && \
+    chmod +x /usr/local/bin/phpcpd
+
+RUN wget -O /usr/local/bin/codecept http://codeception.com/codecept.phar && \
+    chmod +x /usr/local/bin/codecept
+
 RUN composer global require phan/phan
 
 RUN composer global require phpstan/phpstan --prefer-dist
 
-RUN echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini && docker-php-ext-enable xdebug
+# RUN echo "xdebug.remote_enable=on" > $PHP_INI_DIR/conf.d/xdebug.ini \
+# 	&& echo "xdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
+#     && echo "xdebug.remote_connect_back=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
+# 	&& echo "xdebug.idekey=\"$DEBUG_IDEKEY\"" >> /usr/local/etc/php/conf.d/xdebug.ini \
+# 	&& echo 'xdebug.remote_port=9000' >> /usr/local/etc/php/conf.d/xdebug.ini \
+# 	&& echo 'xdebug.remote_handler=dbgp' >> /usr/local/etc/php/conf.d/xdebug.ini \
+# 	&& echo 'xdebug.profiler_enable=0' >> /usr/local/etc/php/conf.d/xdebug.ini \
+# 	&& echo 'xdebug.profiler_output_dir="/var/www/html/"' >> /usr/local/etc/php/conf.d/xdebug.ini \
+# 	&& echo 'xdebug.cli_color=1' >> /usr/local/etc/php/conf.d/xdebug.ini \
+# 	&& echo 'xdebug.var_display_max_depth=10' >> /usr/local/etc/php/conf.d/xdebug.ini \
+# 	&& docker-php-ext-enable xdebug
 
 RUN chmod -R 0777 $COMPOSER_HOME
-

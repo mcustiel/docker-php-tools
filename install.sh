@@ -43,4 +43,4 @@ done
 
 cp -v $CURDIR/php-tool-run $DESTDIR
 cp -v $CURDIR/php5-tool-run $DESTDIR
-
+cp -v $CURDIR/php72-tool-run $DESTDIR

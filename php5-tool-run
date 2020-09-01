@@ -1,5 +1,20 @@
 #!/bin/bash
 
+# This file is part of mcustiel/docker-php-tools.
+#
+# docker-php-tools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# docker-php-tools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with mcustiel/docker-php-tools.  If not, see <http://www.gnu.org/licenses/>.
+
 DIR=$(pwd)
 USER=$(id -u)
 GROUP=$(id -g)
@@ -11,8 +26,20 @@ function fail {
     exit 1
 }
 
+function usage {
+    echo "php-tool-run [--dpt-dir <directory>] [--dpt-user <user>] [--dpt-group <group>] COMMAND ...ARGS"
+    echo "  --dpt-dir: Working directory for the command to run - Default: \$CWD"
+    echo "  --dpt-user: Runs the command as the given user - Default: \$USER"
+    echo "  --dpt-user: Runs the command as the given group - Default: Users's default group"
+    echo
+    exit 0
+}
+
 while [ "${#options[@]}" -gt 0 ]; do
   case "${options[0]}" in
+    -h|--help)
+      usage
+      ;;
     --dpt-dir)
       DIR=$(realpath ${options[1]})
       if [ ! -d $DIR ]; then

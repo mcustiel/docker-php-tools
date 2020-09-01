@@ -137,9 +137,6 @@ RUN docker-php-ext-install xmlwriter
 RUN docker-php-ext-install xsl 
 RUN docker-php-ext-install zip
 
-# PHP Configuration
-COPY ./config/phar-writable.ini /usr/local/etc/php/conf.d
-
 # Register the COMPOSER_HOME environment variable
 ENV COMPOSER_HOME /composer
 
@@ -177,7 +174,6 @@ RUN curl -L http://phpdoc.org/phpDocumentor.phar -o $PHARS_DIR/phpDocumentor
 RUN chmod +x $PHARS_DIR/phpDocumentor
 
 # Box
-
 RUN echo "phar.readonly=off" > $PHP_INI_DIR/conf.d/phar.ini
 
 RUN curl -LSs https://box-project.github.io/box2/installer.php | php 
@@ -192,8 +188,6 @@ RUN echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/memory-limit.ini
 
 # Time Zone
 RUN echo "date.timezone=${PHP_TIMEZONE:-UTC}" > $PHP_INI_DIR/conf.d/date_timezone.ini
-
-# Phars
 
 VOLUME ["/app"]
 WORKDIR /app

@@ -70,5 +70,5 @@ docker run -it --rm \
     --volume /etc/group:/etc/group:ro \
     --env SSH_AUTH_SOCK=/ssh-auth.sock \
     --user $USER:$GROUP \
-    php-tools:php73 $COMMAND
+    php-tools:php72 $COMMAND
 
