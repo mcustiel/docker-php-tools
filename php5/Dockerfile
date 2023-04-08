@@ -19,23 +19,51 @@ LABEL MAINTAINER="Mariano Custiel <jmcustiel@gmail.com>"
 
 ARG DEBUG_IDEKEY=ECLIPSE
 
-RUN pecl install xdebug-2.5.3
+RUN pecl install imagick-3.4.3 && docker-php-ext-enable imagick
+RUN pecl install redis-4.1.1 && docker-php-ext-enable redis
 RUN pecl install ssh2-0.13 && docker-php-ext-enable ssh2
+RUN pecl install xdebug-2.5.3
 
 RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h
-RUN docker-php-ext-install gmp 
+
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && docker-php-ext-install gd 
+
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl && docker-php-ext-install imap 
+RUN docker-php-ext-install gmp 
+RUN docker-php-ext-install hash 
+RUN docker-php-ext-install json 
 RUN docker-php-ext-install mcrypt 
 RUN docker-php-ext-install mysql
+RUN docker-php-ext-install readline 
+RUN docker-php-ext-install recode 
 #RUN docker-php-ext-install sybase_ct 
+RUN docker-php-ext-install tokenizer 
+RUN docker-php-ext-install wddx 
 RUN docker-php-ext-install xmlreader 
+RUN docker-php-ext-install xmlrpc 
 
-RUN composer global require phpunit/phpunit
+RUN composer global require symfony/console:^2.8
 RUN composer global require phpunit/dbunit
+RUN composer global require phpunit/phpunit
 RUN composer global require sebastian/phpcpd
+RUN composer global require phing/phing
 
-RUN curl -L http://phpdoc.org/phpDocumentor.phar -o $PHARS_DIR/phpDocumentor
-RUN chmod +x $PHARS_DIR/phpDocumentor
+RUN composer global require phploc/phploc
+RUN composer global require phpmd/phpmd
+RUN composer global require squizlabs/php_codesniffer
+RUN composer global require pear/archive_tar
+RUN composer global require codeception/codeception
+RUN composer global require sensiolabs/security-checker
+RUN composer global require phpmetrics/phpmetrics
+
+RUN curl -L http://phpdoc.org/phpDocumentor.phar -o $PHARS_DIR/phpDocumentor && \
+	chmod +x $PHARS_DIR/phpDocumentor
+
+RUN wget -O /usr/local/bin/php-cs-fixer https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/releases/download/v2.19.1/php-cs-fixer.phar && \
+  chmod +x /usr/local/bin/php-cs-fixer
+
+RUN wget -O /usr/local/bin/box https://github.com/box-project/box2/releases/download/2.7.5/box-2.7.5.phar && \
+    chmod +x /usr/local/bin/box
 
 # Disable Populating Raw POST Data
 # Not needed when moving to PHP 7.

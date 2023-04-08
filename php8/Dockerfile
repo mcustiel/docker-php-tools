@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with mcustiel/docker-php-tools.  If not, see <http://www.gnu.org/licenses/>.
 
-FROM php-tool-base:php73
+FROM php-tool-base:php8
 
 LABEL MAINTAINER="Mariano Custiel <jmcustiel@gmail.com>"
 
@@ -24,10 +24,13 @@ RUN apt-get update && \
         libsodium-dev libc-client-dev libkrb5-dev \
     && rm -r /var/lib/apt/lists/*
 
-RUN pecl install xdebug-2.7.2
-#RUN pecl install ssh2-1.1.2 && docker-php-ext-enable ssh2
 RUN pecl install ast && docker-php-ext-enable ast
+RUN pecl install imagick && docker-php-ext-enable imagick
+RUN pecl install redis && docker-php-ext-enable redis
+#RUN pecl install ssh2-1.1.2 && docker-php-ext-enable ssh2
+RUN pecl install xdebug
 
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg && docker-php-ext-install gd 
 RUN docker-php-ext-install gmp 
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl && docker-php-ext-install imap 
 RUN docker-php-ext-install phar 
@@ -45,9 +48,27 @@ RUN wget -O /usr/local/bin/phpcpd https://phar.phpunit.de/phpcpd-6.0.2.phar && \
 RUN wget -O /usr/local/bin/codecept http://codeception.com/codecept.phar && \
     chmod +x /usr/local/bin/codecept
 
+RUN wget -O /usr/local/bin/php-cs-fixer https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/releases/download/v3.15.1/php-cs-fixer.phar && \
+    chmod +x /usr/local/bin/php-cs-fixer
+
+RUN wget -O /usr/local/bin/box https://github.com/box-project/box/releases/download/4.3.8/box.phar && \
+    chmod +x /usr/local/bin/box
+
+RUN wget -O /usr/local/bin/php-security-checker https://github.com/fabpot/local-php-security-checker/releases/download/v2.0.6/local-php-security-checker_2.0.6_linux_amd64 && \
+    chmod +x /usr/local/bin/php-security-checker
+
 RUN composer global require phan/phan
 
 RUN composer global require phpstan/phpstan --prefer-dist
+RUN composer global require symfony/console
+RUN composer global require phing/phing
+
+RUN composer global require phploc/phploc
+RUN composer global require phpmd/phpmd
+RUN composer global require squizlabs/php_codesniffer
+RUN composer global require pear/archive_tar
+RUN composer global require codeception/codeception
+RUN composer global require phpmetrics/phpmetrics
 
 # RUN echo "xdebug.remote_enable=on" > $PHP_INI_DIR/conf.d/xdebug.ini \
 # 	&& echo "xdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
